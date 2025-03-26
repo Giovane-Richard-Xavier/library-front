@@ -7,12 +7,12 @@ export const items = [
     icon: Home,
   },
   {
-    title: "Inbox",
+    title: "Livros",
     url: "#",
     icon: Inbox,
   },
   {
-    title: "Calendar",
+    title: "Autores",
     url: "#",
     icon: Calendar,
   },
