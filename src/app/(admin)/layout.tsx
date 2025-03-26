@@ -16,7 +16,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Navbar */}
       <div className="relative col-start-2 row-start-1 transition-all ease-in-out duration-200">
         <Navbar />
-        <SidebarTrigger className="absolute top-1/4 left-1.5 z-50 cursor-pointer" />
+        <SidebarTrigger className="absolute top-1/4 left-1.5 z-50 cursor-pointer text-white" />
       </div>
 
       {/* Main Content */}

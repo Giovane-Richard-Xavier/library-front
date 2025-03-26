@@ -1,9 +1,10 @@
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Enum_Routes } from "../../routes";
 
 export const items = [
   {
     title: "Home",
-    url: "#",
+    url: Enum_Routes.HOME,
     icon: Home,
   },
   {
