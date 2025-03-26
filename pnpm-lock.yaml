@@ -22,7 +22,7 @@ dependencies:
     version: 5.69.0(react@18.3.1)
   '@ts-rest/react-query':
     specifier: ^3.52.1
-    version: 3.52.1(@tanstack/react-query@5.69.0)(@ts-rest/core@3.52.1)(react@18.3.1)
+    version: 3.52.1(@tanstack/react-query@5.69.0)(@ts-rest/core@3.52.1)(react@18.3.1)(zod@3.24.2)
   class-variance-authority:
     specifier: ^0.7.1
     version: 0.7.1
@@ -47,6 +47,9 @@ dependencies:
   tw-animate-css:
     specifier: ^1.2.4
     version: 1.2.4
+  zod:
+    specifier: ^3.24.2
+    version: 3.24.2
 
 devDependencies:
   '@eslint/eslintrc':
@@ -1119,7 +1122,7 @@ packages:
       react: 18.3.1
     dev: false
 
-  /@ts-rest/core@3.52.1(@types/node@20.17.27):
+  /@ts-rest/core@3.52.1(@types/node@20.17.27)(zod@3.24.2):
     resolution: {integrity: sha512-tAjz7Kxq/grJodcTA1Anop4AVRDlD40fkksEV5Mmal88VoZeRKAG8oMHsDwdwPZz+B/zgnz0q2sF+cm5M7Bc7g==}
     peerDependencies:
       '@types/node': ^18.18.7 || >=20.8.4
@@ -1131,9 +1134,10 @@ packages:
         optional: true
     dependencies:
       '@types/node': 20.17.27
+      zod: 3.24.2
     dev: false
 
-  /@ts-rest/react-query@3.52.1(@tanstack/react-query@5.69.0)(@ts-rest/core@3.52.1)(react@18.3.1):
+  /@ts-rest/react-query@3.52.1(@tanstack/react-query@5.69.0)(@ts-rest/core@3.52.1)(react@18.3.1)(zod@3.24.2):
     resolution: {integrity: sha512-Y4wx3oQwyEj7h3hVz2Wsrd8u7xWRqXc0K6YpKruZJg5G1pioKdlqqjKvv+JJbtgk+vImzha9z+NgeFnO4oYAkA==}
     peerDependencies:
       '@tanstack/react-query': ^4.0.0 || ^5.0.0
@@ -1145,8 +1149,9 @@ packages:
         optional: true
     dependencies:
       '@tanstack/react-query': 5.69.0(react@18.3.1)
-      '@ts-rest/core': 3.52.1(@types/node@20.17.27)
+      '@ts-rest/core': 3.52.1(@types/node@20.17.27)(zod@3.24.2)
       react: 18.3.1
+      zod: 3.24.2
     dev: false
 
   /@tybys/wasm-util@0.9.0:
@@ -3869,3 +3874,7 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+    dev: false
