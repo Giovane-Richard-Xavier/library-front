@@ -9,13 +9,22 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { items } from "@/utils/menu-items";
+import Image from "next/image";
 
 export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel className="flex items-center justify-start gap-5 my-5">
+            <Image
+              src="/images/logo-book.png"
+              alt="logo"
+              height={20}
+              width={40}
+            />
+            Administrador
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
