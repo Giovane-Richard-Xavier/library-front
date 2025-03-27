@@ -1,7 +1,12 @@
 "use client";
 
 import { IonIcon } from "@ionic/react";
-import { cartOutline, heartOutline, peopleOutline } from "ionicons/icons";
+import {
+  cartOutline,
+  heartOutline,
+  peopleOutline,
+  searchOutline,
+} from "ionicons/icons";
 import Image from "next/image";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -25,15 +30,26 @@ export const SiteNavbar = () => {
           <h1 className="text-2xl font-extralight">Folhas Soltas</h1>
         </div>
 
-        <div className="max-w-[400px] w-full">
-          <Input className="w-full" placeholder="O que você está procurando?" />
+        <div className="max-w-[400px] w-full relative">
+          <Input
+            className="w-full z-30"
+            placeholder="O que você está procurando?"
+          />
+          <Button
+            variant="ghost"
+            className="absolute right-0 top-0 w-10 h-full p-0 z-10"
+          >
+            <IonIcon
+              icon={searchOutline}
+              className="text-neutral-400 hover:text-neutral-700 cursor-pointer h-[22px] w-[22px]"
+            />
+          </Button>
         </div>
 
         {/* rightside */}
         <div className="flex items-center justify-between gap-4 max-w-[300px] w-full">
           <div className="flex items-center gap-2">
             <IonIcon
-              //   size="large"
               icon={heartOutline}
               className="text-neutral-400 hover:text-neutral-100 cursor-pointer h-[22px] w-[22px]"
             />
@@ -41,9 +57,11 @@ export const SiteNavbar = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button onClick={() => router.push(Enum_Routes.AUTHORS)}>
+            <Button
+              className="bg-transparent cursor-pointer"
+              onClick={() => router.push(Enum_Routes.AUTHORS)}
+            >
               <IonIcon
-                //   size="large"
                 icon={peopleOutline}
                 className="text-neutral-400 hover:text-neutral-100 cursor-pointer h-[22px] w-[22px]"
               />
@@ -53,7 +71,6 @@ export const SiteNavbar = () => {
 
           <div className="flex items-center gap-2">
             <IonIcon
-              //   size="large"
               icon={cartOutline}
               className="text-neutral-400 hover:text-neutral-100 cursor-pointer h-[22px] w-[22px]"
             />
