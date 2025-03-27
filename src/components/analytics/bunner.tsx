@@ -23,7 +23,7 @@ export const Bunner = () => {
         ssr={true}
         infinite={true}
         autoPlay={true}
-        autoPlaySpeed={3000}
+        autoPlaySpeed={5000}
         keyBoardControl={true}
         customTransition="all .5s"
         transitionDuration={500}
