@@ -32,7 +32,7 @@ export const SiteNavbar = () => {
 
         <div className="max-w-[400px] w-full relative">
           <Input
-            className="w-full z-30"
+            className="w-full z-30 bg-white"
             placeholder="O que você está procurando?"
           />
           <Button
