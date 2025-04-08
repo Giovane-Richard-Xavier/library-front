@@ -14,7 +14,7 @@ type ModalProps = {
   description?: string;
   trigger?: React.ReactNode;
   children: React.ReactNode;
-  footer: React.ReactNode;
+  footer?: React.ReactNode;
   open?: boolean;
   onOpen?: (open: boolean) => void;
 };
@@ -31,13 +31,13 @@ export const Modal = ({
   return (
     <Dialog open={open} onOpenChange={onOpen}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-full max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-4 py-4">{children}</div>
+        <div className="w-full h-full">{children}</div>
         <DialogFooter>
           {footer && <DialogFooter>{footer}</DialogFooter>}
         </DialogFooter>
