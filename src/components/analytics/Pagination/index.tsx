@@ -59,15 +59,15 @@ export const Pagination = ({
     const maxVisiblePages = 3;
 
     if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) {
+      for (let i = 0; i < totalPages; i++) {
         pagesArray.push(i);
       }
-    } else if (currentPage <= Math.ceil(maxVisiblePages / 2)) {
-      for (let i = 1; i <= maxVisiblePages; i++) {
+    } else if (currentPage <= Math.floor(maxVisiblePages / 2)) {
+      for (let i = 0; i < maxVisiblePages; i++) {
         pagesArray.push(i);
       }
-    } else if (currentPage >= totalPages - Math.floor(maxVisiblePages / 2)) {
-      for (let i = totalPages - maxVisiblePages + 1; i <= totalPages; i++) {
+    } else if (currentPage >= totalPages - Math.ceil(maxVisiblePages / 2)) {
+      for (let i = totalPages - maxVisiblePages; i < totalPages; i++) {
         pagesArray.push(i);
       }
     } else {
@@ -108,7 +108,7 @@ export const Pagination = ({
             <PaginationItem>
               <PaginationPrevious
                 className={
-                  currentPage === 1
+                  currentPage === 0
                     ? "pointer-events-none text-muted"
                     : "cursor-pointer"
                 }
@@ -116,17 +116,17 @@ export const Pagination = ({
               />
             </PaginationItem>
 
-            {pages[0] > 1 && (
+            {pages[0] > 0 && (
               <>
                 <PaginationItem>
                   <PaginationLink
-                    isActive={currentPage === 1}
-                    onClick={() => handlePageChange(1)}
+                    isActive={currentPage === 0}
+                    onClick={() => handlePageChange(0)}
                   >
                     1
                   </PaginationLink>
                 </PaginationItem>
-                {pages[0] > 2 && (
+                {pages[0] > 1 && (
                   <PaginationItem>
                     <PaginationEllipsis />
                   </PaginationItem>
@@ -140,22 +140,22 @@ export const Pagination = ({
                   isActive={currentPage === page}
                   onClick={() => handlePageChange(page)}
                 >
-                  {page}
+                  {page + 1}
                 </PaginationLink>
               </PaginationItem>
             ))}
 
-            {pages[pages.length - 1] < totalPages && (
+            {pages[pages.length - 1] < totalPages - 1 && (
               <>
-                {pages[pages.length - 1] < totalPages - 1 && (
+                {pages[pages.length - 1] < totalPages - 2 && (
                   <PaginationItem>
                     <PaginationEllipsis />
                   </PaginationItem>
                 )}
                 <PaginationItem>
                   <PaginationLink
-                    isActive={currentPage === totalPages}
-                    onClick={() => handlePageChange(totalPages)}
+                    isActive={currentPage === totalPages - 1}
+                    onClick={() => handlePageChange(totalPages - 1)}
                   >
                     {totalPages}
                   </PaginationLink>
@@ -166,7 +166,7 @@ export const Pagination = ({
             <PaginationItem>
               <PaginationNext
                 className={
-                  currentPage === totalPages
+                  currentPage === totalPages - 1
                     ? "pointer-events-none text-muted"
                     : "cursor-pointer"
                 }
