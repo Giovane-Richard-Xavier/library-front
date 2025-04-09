@@ -1,21 +1,13 @@
-import React from "react";
-import { Modal } from "./modalBase";
 import { Button } from "@/components/ui/button";
 import { IonIcon } from "@ionic/react";
-import {
-  alertCircle,
-  alertCircleOutline,
-  warningOutline,
-} from "ionicons/icons";
+import { warningOutline } from "ionicons/icons";
 
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 interface IAlertModalProps {
