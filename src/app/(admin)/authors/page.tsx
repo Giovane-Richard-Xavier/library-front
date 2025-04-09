@@ -14,6 +14,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { columnsAuthors } from "./analitics/_array/columnsAuthor";
 import { ModalAddAuthor } from "./analitics/components/ModalAddAuthor";
+import { Pagination } from "@/components/analytics/Pagination";
 
 const formSchema = z.object({
   name: z.string().min(1, "Nome obrigatório"),
@@ -29,7 +30,7 @@ const Authors = () => {
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
-  const [sort, setSort] = useState("createdAt,desc");
+  const [sort, setSort] = useState("createdAt,asc");
 
   // MUTATIONS
   const { mutate: mutateCreateAuthor } = useCreateAuthor();
@@ -41,11 +42,6 @@ const Authors = () => {
     isLoading,
     error,
   } = usePaginatedAuthors(page, size, sort);
-  // const { data: allAuthors, isLoading, error } = useAllAuthors();
-
-  console.log("allAuthors ->", allAuthors);
-
-  const rows = allAuthors?.content || [];
 
   const form = useForm<FormDataAuthor>({
     resolver: zodResolver(formSchema),
@@ -114,11 +110,27 @@ const Authors = () => {
         </button>
       </div>
 
-      <DataTable
-        columns={columnsAuthors(handleEditAuthors, handleDeleteAuthors)}
-        data={rows}
-        borderless
-      />
+      <div className="w-full space-y-4">
+        <DataTable
+          columns={columnsAuthors(handleEditAuthors, handleDeleteAuthors)}
+          data={allAuthors?.content || []}
+          borderless
+        />
+
+        {allAuthors && (
+          <Pagination
+            totalPages={allAuthors.totalPages}
+            currentPage={page}
+            pageSize={size}
+            onPageChange={setPage}
+            onSizeChange={(newSize: number) => {
+              setSize(newSize);
+              setPage(0);
+            }}
+          />
+        )}
+      </div>
+
       {openModal && (
         <ModalAddAuthor
           open={openModal}
