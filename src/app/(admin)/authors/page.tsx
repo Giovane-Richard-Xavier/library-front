@@ -1,6 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/analytics/DataTable/data-table";
+import { AlertModal } from "@/components/analytics/Modals/alertModal";
 import { Pagination } from "@/components/analytics/Pagination";
 import {
   useCreateAuthor,
@@ -25,6 +26,7 @@ export type FormDataAuthor = z.infer<typeof formSchema>;
 
 const Authors = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [openAletModalDelete, setOpenAlertModalDelete] = useState(false);
   const [editingAuthor, setEditingAuthor] = useState<any | null>(null);
 
   const [page, setPage] = useState(0);
@@ -61,9 +63,11 @@ const Authors = () => {
   };
 
   const handleDeleteAuthors = (uuid: string) => {
-    // setDFDToDelete(id);
+    setOpenAlertModalDelete(true);
     console.log("uuid ->", uuid);
   };
+
+  const confirmDelete = () => {};
 
   const onSubmit: SubmitHandler<FormDataAuthor> = (data) => {
     if (editingAuthor) {
@@ -137,6 +141,20 @@ const Authors = () => {
           setOpen={setOpenModal}
           form={form}
           handleFormSubmit={onSubmit}
+        />
+      )}
+
+      {/* Alert Modal */}
+      {openAletModalDelete && (
+        <AlertModal
+          titleModal="Excluir Autor"
+          descriptionModal="Deseja realmente excluír o Autor? Esta ação não poderá ser desfeita."
+          isOpen={openAletModalDelete}
+          onClose={() => setOpenAlertModalDelete(false)}
+          textButtonCancel="Cancelar"
+          textButtonConfirm="Excluir"
+          variantButtonConfirm="destructive"
+          onConfirm={confirmDelete}
         />
       )}
     </div>
