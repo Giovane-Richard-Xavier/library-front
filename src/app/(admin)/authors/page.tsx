@@ -1,7 +1,12 @@
 "use client";
 
 import { DataTable } from "@/components/analytics/DataTable/data-table";
-import { useAllAuthors } from "@/services/queries/author/hook";
+import {
+  useAllAuthors,
+  useCreateAuthor,
+  useEditAuthor,
+  usePaginatedAuthors,
+} from "@/services/queries/author/hook";
 import { IAuthor } from "@/utils/types/authors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -20,11 +25,27 @@ export type FormDataAuthor = z.infer<typeof formSchema>;
 
 const Authors = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [editingAuthor, setEditingAuthor] = useState<any | null>(null);
+
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
+  const [sort, setSort] = useState("createdAt,desc");
+
+  // MUTATIONS
+  const { mutate: mutateCreateAuthor } = useCreateAuthor();
+  const { mutate: mutateEditAuthor } = useEditAuthor();
 
   // QUERRY
-  const { data: allAuthors, isLoading, error } = useAllAuthors();
+  const {
+    data: allAuthors,
+    isLoading,
+    error,
+  } = usePaginatedAuthors(page, size, sort);
+  // const { data: allAuthors, isLoading, error } = useAllAuthors();
 
   console.log("allAuthors ->", allAuthors);
+
+  const rows = allAuthors?.content || [];
 
   const form = useForm<FormDataAuthor>({
     resolver: zodResolver(formSchema),
@@ -36,8 +57,11 @@ const Authors = () => {
   });
 
   const handleEditAuthors = (author: IAuthor) => {
-    // setSelectedItem(dfd);
-    console.log("autor ->", author);
+    setEditingAuthor(author);
+    form.setValue("name", author.name);
+    form.setValue("nationality", author.nationality);
+    form.setValue("birthdate", author.birthdate);
+    setOpenModal(true);
   };
 
   const handleDeleteAuthors = (uuid: string) => {
@@ -46,7 +70,30 @@ const Authors = () => {
   };
 
   const onSubmit: SubmitHandler<FormDataAuthor> = (data) => {
-    console.log("data ->", data);
+    if (editingAuthor) {
+      mutateEditAuthor(
+        {
+          id: editingAuthor.id,
+          data,
+        },
+        {
+          onSuccess: () => {
+            form.reset();
+            setOpenModal(false);
+          },
+        }
+      );
+    } else {
+      mutateCreateAuthor(data, {
+        onSuccess: () => {
+          form.reset();
+          setOpenModal(false);
+        },
+        onError: (error) => {
+          console.log("error ->", error);
+        },
+      });
+    }
   };
 
   if (isLoading) return <div>Carregando...</div>;
@@ -69,7 +116,7 @@ const Authors = () => {
 
       <DataTable
         columns={columnsAuthors(handleEditAuthors, handleDeleteAuthors)}
-        data={allAuthors || []}
+        data={rows}
         borderless
       />
       {openModal && (

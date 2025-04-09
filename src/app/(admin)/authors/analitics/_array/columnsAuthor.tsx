@@ -8,7 +8,8 @@ import {
 import { IAuthor } from "@/utils/types/authors";
 import { IonIcon } from "@ionic/react";
 import { ColumnDef } from "@tanstack/react-table";
-import { ellipsisHorizontal, eye, trash } from "ionicons/icons";
+import { ellipsisHorizontal, pencil, trash } from "ionicons/icons";
+import { format } from "date-fns";
 // import { BadgeStatus } from "@components/BadgeStatus";
 
 export const columnsAuthors = (
@@ -53,6 +54,9 @@ export const columnsAuthors = (
         Data de Nascimento
       </Button>
     ),
+    cell: ({ row }) => {
+      return <div>{format(row.getValue("birthdate"), "dd/MM/yyyy")}</div>;
+    },
   },
   {
     accessorKey: "actions",
@@ -81,8 +85,8 @@ export const columnsAuthors = (
                 className="gap-10"
                 onClick={() => handleEditAuthors(author)}
               >
-                <IonIcon size="small" icon={eye} />
-                Visualizar
+                <IonIcon size="small" icon={pencil} />
+                Editar
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="gap-10"

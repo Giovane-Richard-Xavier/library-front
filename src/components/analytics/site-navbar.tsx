@@ -4,14 +4,22 @@ import { IonIcon } from "@ionic/react";
 import {
   cartOutline,
   heartOutline,
+  logIn,
   peopleOutline,
   searchOutline,
+  settings,
 } from "ionicons/icons";
 import Image from "next/image";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { Enum_Routes } from "../../../routes";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 export const SiteNavbar = () => {
   const router = useRouter();
@@ -57,16 +65,30 @@ export const SiteNavbar = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button
-              className="bg-transparent cursor-pointer"
-              onClick={() => router.push(Enum_Routes.AUTHORS)}
-            >
-              <IonIcon
-                icon={peopleOutline}
-                className="text-neutral-400 hover:text-neutral-100 cursor-pointer h-[22px] w-[22px]"
-              />
-              Entrar
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="bg-transparent cursor-pointer outline-none">
+                  <IonIcon
+                    icon={peopleOutline}
+                    className="text-neutral-400 hover:text-neutral-100 cursor-pointer h-[22px] w-[22px]"
+                  />
+                  Entrar
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[150px]">
+                <DropdownMenuItem
+                  className="gap-5"
+                  onClick={() => router.push(Enum_Routes.AUTHORS)}
+                >
+                  <IonIcon size="small" icon={logIn} />
+                  Login
+                </DropdownMenuItem>
+                <DropdownMenuItem className="gap-5">
+                  <IonIcon size="small" icon={settings} />
+                  Minha conta
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           <div className="flex items-center gap-2">
