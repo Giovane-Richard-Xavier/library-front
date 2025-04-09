@@ -1,8 +1,8 @@
 "use client";
 
 import { DataTable } from "@/components/analytics/DataTable/data-table";
+import { Pagination } from "@/components/analytics/Pagination";
 import {
-  useAllAuthors,
   useCreateAuthor,
   useEditAuthor,
   usePaginatedAuthors,
@@ -14,7 +14,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { columnsAuthors } from "./analitics/_array/columnsAuthor";
 import { ModalAddAuthor } from "./analitics/components/ModalAddAuthor";
-import { Pagination } from "@/components/analytics/Pagination";
 
 const formSchema = z.object({
   name: z.string().min(1, "Nome obrigatório"),
@@ -30,7 +29,7 @@ const Authors = () => {
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
-  const [sort, setSort] = useState("createdAt,asc");
+  const [sort, setSort] = useState("createdAt,desc");
 
   // MUTATIONS
   const { mutate: mutateCreateAuthor } = useCreateAuthor();
@@ -57,6 +56,7 @@ const Authors = () => {
     form.setValue("name", author.name);
     form.setValue("nationality", author.nationality);
     form.setValue("birthdate", author.birthdate);
+    setSort("createdAt,desc");
     setOpenModal(true);
   };
 
