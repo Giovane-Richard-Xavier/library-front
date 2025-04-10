@@ -38,9 +38,8 @@ export const Modal = ({
         </DialogHeader>
 
         <div className="w-full h-full">{children}</div>
-        <DialogFooter>
-          {footer && <DialogFooter>{footer}</DialogFooter>}
-        </DialogFooter>
+
+        {footer && <DialogFooter>{footer}</DialogFooter>}
       </DialogContent>
     </Dialog>
   );

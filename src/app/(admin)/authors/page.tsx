@@ -1,9 +1,11 @@
 "use client";
 
 import { DataTable } from "@/components/analytics/DataTable/data-table";
+import { AlertModal } from "@/components/analytics/Modals/alertModal";
 import { Pagination } from "@/components/analytics/Pagination";
 import {
   useCreateAuthor,
+  useDeleteAuthor,
   useEditAuthor,
   usePaginatedAuthors,
 } from "@/services/queries/author/hook";
@@ -25,7 +27,9 @@ export type FormDataAuthor = z.infer<typeof formSchema>;
 
 const Authors = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [openAletModalDelete, setOpenAlertModalDelete] = useState(false);
   const [editingAuthor, setEditingAuthor] = useState<any | null>(null);
+  const [deleteAuthor, setDeleteAuthor] = useState<string | null>(null);
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
@@ -34,6 +38,7 @@ const Authors = () => {
   // MUTATIONS
   const { mutate: mutateCreateAuthor } = useCreateAuthor();
   const { mutate: mutateEditAuthor } = useEditAuthor();
+  const { mutate: mutateDeleteAuthor } = useDeleteAuthor();
 
   // QUERRY
   const {
@@ -60,9 +65,24 @@ const Authors = () => {
     setOpenModal(true);
   };
 
-  const handleDeleteAuthors = (uuid: string) => {
-    // setDFDToDelete(id);
-    console.log("uuid ->", uuid);
+  const handleDeleteAuthors = (id: string) => {
+    setDeleteAuthor(id);
+    setOpenAlertModalDelete(true);
+  };
+
+  const confirmDelete = () => {
+    try {
+      if (deleteAuthor) {
+        mutateDeleteAuthor(deleteAuthor, {
+          onSuccess: () => {
+            setDeleteAuthor(null);
+            setOpenAlertModalDelete(false);
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onSubmit: SubmitHandler<FormDataAuthor> = (data) => {
@@ -137,6 +157,20 @@ const Authors = () => {
           setOpen={setOpenModal}
           form={form}
           handleFormSubmit={onSubmit}
+        />
+      )}
+
+      {/* Alert Modal */}
+      {openAletModalDelete && (
+        <AlertModal
+          titleModal="Excluir Autor"
+          descriptionModal="Deseja realmente excluír o Autor? Esta ação não poderá ser desfeita."
+          isOpen={openAletModalDelete}
+          onClose={() => setOpenAlertModalDelete(false)}
+          textButtonCancel="Cancelar"
+          textButtonConfirm="Excluir"
+          variantButtonConfirm="destructive"
+          onConfirm={confirmDelete}
         />
       )}
     </div>

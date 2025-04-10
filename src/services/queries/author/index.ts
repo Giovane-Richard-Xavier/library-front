@@ -28,9 +28,6 @@ export const getPaginateAllAthors = async (
         },
       }
     );
-    // const response = await api.get<PaginatedResponse<IAuthor>>(
-    //   `/bookstore/authors?page=${page}&size=${size}&sort=${sort}`,
-    // );
 
     return response.data;
   } catch (error) {
@@ -80,6 +77,16 @@ export const getAllAthors = async (): Promise<IAuthor[]> => {
 export const editAuthor = async (id: string, data: FormDataAuthor) => {
   try {
     const request = await api.put(`/bookstore/authors/${id}`, data);
+
+    return request.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteAuthor = async (id: string) => {
+  try {
+    const request = await api.delete(`/bookstore/authors/${id}`);
 
     return request.data;
   } catch (error) {
