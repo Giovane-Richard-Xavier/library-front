@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createAuthor,
+  deleteAuthor,
   editAuthor,
   getAllAthors,
   getPaginateAllAthors,
@@ -20,7 +21,7 @@ export const usePaginatedAuthors = (
   sort: string
 ) => {
   return useQuery<PaginatedResponse<IAuthor>>({
-    queryKey: ["authors", page, size, sort],
+    queryKey: ["allAuthors", page, size, sort],
     queryFn: () => getPaginateAllAthors(page, size, sort),
     keepPreviousData: true,
   });
@@ -43,6 +44,17 @@ export const useEditAuthor = () => {
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: Omit<IAuthor, "id"> }) =>
       editAuthor(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["allAuthors"] });
+    },
+  });
+};
+
+export const useDeleteAuthor = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => deleteAuthor(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allAuthors"] });
     },
