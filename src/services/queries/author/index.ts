@@ -1,6 +1,7 @@
 import { FormDataAuthor } from "@/app/(admin)/authors/page";
 import api from "@/services/api";
-import { IAuthor, PaginatedResponse } from "@/utils/types/authors";
+import { IAuthor } from "@/utils/types/authors";
+import { PaginatedResponse } from "@/utils/types/pagination";
 
 export const createAuthor = async (data: FormDataAuthor) => {
   try {

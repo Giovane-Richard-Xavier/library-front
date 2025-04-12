@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -5,17 +7,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IAuthor } from "@/utils/types/authors";
+import { IPublisher } from "@/utils/types/publisher";
 import { IonIcon } from "@ionic/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { ellipsisHorizontal, pencil, trash } from "ionicons/icons";
-import { format } from "date-fns";
 // import { BadgeStatus } from "@components/BadgeStatus";
 
 export const columnsPublishers = (
-  handleEditPublisher: (author: IAuthor) => void,
+  handleEditPublisher: (publisher: IPublisher) => void,
   handleDeletePublisher: (id: string) => void
-): ColumnDef<IAuthor>[] => [
+): ColumnDef<IPublisher>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -25,38 +26,9 @@ export const columnsPublishers = (
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         className="!bg-transparent w-auto !text-left px-0"
       >
-        Nome
+        Nome da editora
       </Button>
     ),
-  },
-  {
-    accessorKey: "nationality",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="!bg-transparent w-auto !text-left px-0"
-      >
-        Nacionalidade
-      </Button>
-    ),
-  },
-  {
-    accessorKey: "birthdate",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="!bg-transparent w-auto !text-left px-0"
-      >
-        Data de Nascimento
-      </Button>
-    ),
-    cell: ({ row }) => {
-      return <div>{format(row.getValue("birthdate"), "dd/MM/yyyy")}</div>;
-    },
   },
   {
     accessorKey: "actions",

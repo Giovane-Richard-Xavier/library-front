@@ -117,7 +117,7 @@ const Authors = () => {
   if (error) return <div>Erro ao carregar autores</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center gap-20 w-full h-full">
+    <div className="flex flex-col items-center justify-start gap-20 w-full h-full pt-10">
       <HeaderPage
         title="Autores"
         textButton="Adicionar Autor"

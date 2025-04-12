@@ -1,5 +1,3 @@
-import { FormDataPublisher } from "@/app/(admin)/publisher/page";
-import React from "react";
 import { UseFormReturn } from "react-hook-form";
 
 type HeaderPageProps = {

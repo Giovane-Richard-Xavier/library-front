@@ -6,7 +6,8 @@ import {
   getAllAthors,
   getPaginateAllAthors,
 } from ".";
-import { IAuthor, PaginatedResponse } from "@/utils/types/authors";
+import { IAuthor } from "@/utils/types/authors";
+import { PaginatedResponse } from "@/utils/types/pagination";
 
 export const useAllAuthors = () => {
   return useQuery<IAuthor[]>({

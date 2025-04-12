@@ -7,9 +7,15 @@ import { Pagination } from "@/components/analytics/Pagination";
 import { IPublisher } from "@/utils/types/publisher";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { TypeOf, z } from "zod";
-import { columnsPublishers } from "./analytics/_array/columnsAuthor";
+import { columnsPublishers } from "./analytics/_array/columns";
+import {
+  useAllPaginatePublisher,
+  useCreatePublisher,
+  useDeletePublisher,
+} from "@/services/queries/publisher/hook";
+import { ModalAddPublisher } from "./analytics/components/modalAddPublisher";
 
 const formSchema = z.object({
   name: z.string().min(4, "Nome obrigatório"),
@@ -28,8 +34,15 @@ const Pubisher = () => {
   const [sort, setSort] = useState("createdAt,desc");
 
   // MUTATIONS
+  const { mutate: mutateCreatePublisher } = useCreatePublisher();
+  const { mutate: mutateDeletePublisher } = useDeletePublisher();
 
   // QUERIES
+  const {
+    data: allPublisher,
+    isLoading,
+    error,
+  } = useAllPaginatePublisher(page, size, sort);
 
   const form = useForm<FormDataPublisher>({
     resolver: zodResolver(formSchema),
@@ -38,14 +51,47 @@ const Pubisher = () => {
     },
   });
 
-  const handleEditPublisher = (publisher: IPublisher) => {};
+  const handleEditPublisher = (publisher: IPublisher) => {
+    setEditingPublisher(publisher);
+    form.setValue("name", publisher.name);
+    setOpenModal(true);
+  };
 
-  const handleDeleteublisher = (id: string) => {};
+  const handleDeleteublisher = (id: string) => {
+    setDeletePublisher(id);
+    setOpenAlertModalDelete(true);
+  };
 
-  const confirmDelete = () => {};
+  const confirmDelete = () => {
+    if (deletePublisher) {
+      mutateDeletePublisher(deletePublisher, {
+        onSuccess: () => {
+          setEditingPublisher(null);
+          setOpenAlertModalDelete(false);
+        },
+      });
+    }
+  };
+
+  const onSubmit: SubmitHandler<FormDataPublisher> = (data) => {
+    if (editingPublisher) {
+      <></>;
+    } else {
+      mutateCreatePublisher(data, {
+        onSuccess: () => {
+          form.reset();
+          setSort("createdAt,desc");
+          setOpenModal(false);
+        },
+      });
+    }
+  };
+
+  if (isLoading) return <div>Carregando...</div>;
+  if (error) return <div>Erro ao carregar autores</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center gap-20 w-full h-full">
+    <div className="flex flex-col items-center justify-start gap-20 w-full h-full pt-10">
       <HeaderPage
         title="Editoras"
         textButton="Adicionar Editora"
@@ -56,14 +102,13 @@ const Pubisher = () => {
       <div className="w-full space-y-4">
         <DataTable
           columns={columnsPublishers(handleEditPublisher, handleDeleteublisher)}
-          //   data={allAuthors?.content || []}
-          data={[]}
+          data={allPublisher?.content || []}
           borderless
         />
 
-        {/* {allAuthors && (
+        {allPublisher && (
           <Pagination
-            totalPages={allAuthors.totalPages}
+            totalPages={allPublisher.totalPages}
             currentPage={page}
             pageSize={size}
             onPageChange={setPage}
@@ -72,14 +117,23 @@ const Pubisher = () => {
               setPage(0);
             }}
           />
-        )} */}
+        )}
       </div>
+
+      {openModal && (
+        <ModalAddPublisher
+          open={openModal}
+          setOpen={setOpenModal}
+          form={form}
+          handleFormSubmit={onSubmit}
+        />
+      )}
 
       {/* Alert Modal */}
       {openAlertModalDelete && (
         <AlertModal
-          titleModal="Excluir Autor"
-          descriptionModal="Deseja realmente excluír o Autor? Esta ação não poderá ser desfeita."
+          titleModal="Excluir Editora"
+          descriptionModal="Deseja realmente excluír a Editora? Esta ação não poderá ser desfeita."
           isOpen={openAlertModalDelete}
           onClose={() => setOpenAlertModalDelete(false)}
           textButtonCancel="Cancelar"
