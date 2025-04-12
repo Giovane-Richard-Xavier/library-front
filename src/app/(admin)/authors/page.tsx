@@ -28,7 +28,7 @@ export type FormDataAuthor = z.infer<typeof formSchema>;
 
 const Authors = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [openAletModalDelete, setOpenAlertModalDelete] = useState(false);
+  const [openAlertModalDelete, setOpenAlertModalDelete] = useState(false);
   const [editingAuthor, setEditingAuthor] = useState<any | null>(null);
   const [deleteAuthor, setDeleteAuthor] = useState<string | null>(null);
 
@@ -156,11 +156,11 @@ const Authors = () => {
       )}
 
       {/* Alert Modal */}
-      {openAletModalDelete && (
+      {openAlertModalDelete && (
         <AlertModal
           titleModal="Excluir Autor"
           descriptionModal="Deseja realmente excluír o Autor? Esta ação não poderá ser desfeita."
-          isOpen={openAletModalDelete}
+          isOpen={openAlertModalDelete}
           onClose={() => setOpenAlertModalDelete(false)}
           textButtonCancel="Cancelar"
           textButtonConfirm="Excluir"
