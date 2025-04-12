@@ -16,6 +16,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { columnsAuthors } from "./analytics/_array/columnsAuthor";
 import { ModalAddAuthor } from "./analytics/components/ModalAddAuthor";
+import { HeaderPage } from "@/components/analytics/HeaderPage";
 
 const formSchema = z.object({
   name: z.string().min(1, "Nome obrigatório"),
@@ -117,18 +118,12 @@ const Authors = () => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-20 w-full h-full">
-      <div className="flex items-center justify-between w-full px-4 py-5 border border-neutral-200 bg-white rounded-lg shadow-md">
-        <h1 className="text-xl font-bold">Autores</h1>
-        <button
-          className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 cursor-pointer"
-          onClick={() => {
-            setOpenModal(true);
-            form.reset();
-          }}
-        >
-          Adicionar Autor
-        </button>
-      </div>
+      <HeaderPage
+        title="Autores"
+        textButton="Adicionar Autor"
+        setOpenModal={setOpenModal}
+        form={form}
+      />
 
       <div className="w-full space-y-4">
         <DataTable
