@@ -14,8 +14,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { columnsAuthors } from "./analitics/_array/columnsAuthor";
-import { ModalAddAuthor } from "./analitics/components/ModalAddAuthor";
+import { columnsAuthors } from "./analytics/_array/columnsAuthor";
+import { ModalAddAuthor } from "./analytics/components/ModalAddAuthor";
 
 const formSchema = z.object({
   name: z.string().min(1, "Nome obrigatório"),
