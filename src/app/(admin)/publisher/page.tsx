@@ -4,17 +4,17 @@ import { DataTable } from "@/components/analytics/DataTable/data-table";
 import { HeaderPage } from "@/components/analytics/HeaderPage";
 import { AlertModal } from "@/components/analytics/Modals/alertModal";
 import { Pagination } from "@/components/analytics/Pagination";
-import { IPublisher } from "@/utils/types/publisher";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { TypeOf, z } from "zod";
-import { columnsPublishers } from "./analytics/_array/columns";
 import {
   useAllPaginatePublisher,
   useCreatePublisher,
   useDeletePublisher,
 } from "@/services/queries/publisher/hook";
+import { IPublisher } from "@/utils/types/publisher";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import { columnsPublishers } from "./analytics/_array/columns";
 import { ModalAddPublisher } from "./analytics/components/modalAddPublisher";
 
 const formSchema = z.object({
@@ -26,7 +26,9 @@ export type FormDataPublisher = z.infer<typeof formSchema>;
 const Pubisher = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openAlertModalDelete, setOpenAlertModalDelete] = useState(false);
-  const [editingPublisher, setEditingPublisher] = useState<any | null>(null);
+  const [editingPublisher, setEditingPublisher] = useState<IPublisher | null>(
+    null
+  );
   const [deletePublisher, setDeletePublisher] = useState<string | null>(null);
 
   const [page, setPage] = useState(0);
@@ -35,6 +37,7 @@ const Pubisher = () => {
 
   // MUTATIONS
   const { mutate: mutateCreatePublisher } = useCreatePublisher();
+  // const { mutate: mutateEditPublisher } = useCreatePublisher();
   const { mutate: mutateDeletePublisher } = useDeletePublisher();
 
   // QUERIES
@@ -75,6 +78,18 @@ const Pubisher = () => {
 
   const onSubmit: SubmitHandler<FormDataPublisher> = (data) => {
     if (editingPublisher) {
+      // mutateEditPublisher(
+      //   {
+      //     id: editingPublisher.id,
+      //     data,
+      //   },
+      //   {
+      //     onSuccess: () => {
+      //       form.reset();
+      //       setOpenModal(false);
+      //     },
+      //   }
+      // );
       <></>;
     } else {
       mutateCreatePublisher(data, {

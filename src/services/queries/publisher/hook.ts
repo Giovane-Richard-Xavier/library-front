@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createPublisher, deletePublisher, getAllPublisherPaginate } from ".";
+import {
+  createPublisher,
+  deletePublisher,
+  editPublisher,
+  getAllPublisherPaginate,
+} from ".";
 import { PaginatedResponse } from "@/utils/types/pagination";
 import { IPublisher } from "@/utils/types/publisher";
 
@@ -21,6 +26,18 @@ export const useCreatePublisher = () => {
   return useMutation({
     mutationFn: (publisher: Omit<IPublisher, "id">) =>
       createPublisher(publisher),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["allPublisher"] });
+    },
+  });
+};
+
+export const useEditPublisher = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Omit<IPublisher, "id"> }) =>
+      editPublisher(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allPublisher"] });
     },
