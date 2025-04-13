@@ -4,7 +4,7 @@ import {
   deleteAuthor,
   editAuthor,
   getAllAthors,
-  getPaginateAllAthors,
+  getFilterAthors,
 } from ".";
 import { IAuthor } from "@/utils/types/authors";
 import { PaginatedResponse } from "@/utils/types/pagination";
@@ -23,7 +23,7 @@ export const usePaginatedAuthors = (
 ) => {
   return useQuery<PaginatedResponse<IAuthor>>({
     queryKey: ["allAuthors", page, size, sort],
-    queryFn: () => getPaginateAllAthors(page, size, sort),
+    queryFn: () => getFilterAthors(page, size, sort),
     keepPreviousData: true,
   });
 };

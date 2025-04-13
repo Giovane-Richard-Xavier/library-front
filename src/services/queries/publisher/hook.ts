@@ -3,11 +3,19 @@ import {
   createPublisher,
   deletePublisher,
   editPublisher,
-  getAllPublisherPaginate,
+  getAllPublishers,
+  getFilterPublishers,
 } from ".";
 import { PaginatedResponse } from "@/utils/types/pagination";
 import { IPublisher } from "@/utils/types/publisher";
 import { FormDataPublisher } from "@/app/(admin)/publisher/page";
+
+export const useAllPublishers = () => {
+  return useQuery<IPublisher[]>({
+    queryKey: ["allPublisher"],
+    queryFn: () => getAllPublishers(),
+  });
+};
 
 export const useAllPaginatePublisher = (
   page: number,
@@ -16,7 +24,7 @@ export const useAllPaginatePublisher = (
 ) => {
   return useQuery<PaginatedResponse<IPublisher>>({
     queryKey: ["allPublisher", page, size, sort],
-    queryFn: () => getAllPublisherPaginate(page, size, sort),
+    queryFn: () => getFilterPublishers(page, size, sort),
     keepPreviousData: true,
   });
 };

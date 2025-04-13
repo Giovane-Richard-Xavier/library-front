@@ -2,7 +2,7 @@ import api from "@/services/api";
 import { PaginatedResponse } from "@/utils/types/pagination";
 import { IPublisher } from "@/utils/types/publisher";
 
-export const getAllPublisherPaginate = async (
+export const getFilterPublishers = async (
   page: number,
   size: number,
   sort: string
@@ -50,6 +50,17 @@ export const getAllPublisherPaginate = async (
       first: true,
       empty: true,
     };
+  }
+};
+
+export const getAllPublishers = async (): Promise<IPublisher[]> => {
+  try {
+    const request = await api.get("/bookstore/publishers/getAll");
+
+    return request.data;
+  } catch (error) {
+    console.log(error);
+    return [];
   }
 };
 
