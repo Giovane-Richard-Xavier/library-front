@@ -1,96 +1,86 @@
 "use client";
 
 import { DataTable } from "@/components/analytics/DataTable/data-table";
+import { HeaderPage } from "@/components/analytics/HeaderPage";
 import { AlertModal } from "@/components/analytics/Modals/alertModal";
 import { Pagination } from "@/components/analytics/Pagination";
 import {
-  useCreateAuthor,
-  useDeleteAuthor,
-  useEditAuthor,
-  usePaginatedAuthors,
-} from "@/services/queries/author/hook";
-import { IAuthor } from "@/utils/types/authors";
+  useAllPaginatePublisher,
+  useCreatePublisher,
+  useDeletePublisher,
+  useEditPublisher,
+} from "@/services/queries/publisher/hook";
+import { IPublisher } from "@/utils/types/publisher";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { columnsAuthors } from "./analytics/_array/columnsAuthor";
-import { ModalAddAuthor } from "./analytics/components/ModalAddAuthor";
-import { HeaderPage } from "@/components/analytics/HeaderPage";
+import { columnsPublishers } from "./analytics/_array/columns";
+import { ModalAddPublisher } from "./analytics/components/modalAddPublisher";
 
 const formSchema = z.object({
-  name: z.string().min(1, "Nome obrigatório"),
-  nationality: z.string().min(4, "Nacionalidade obrigatória"),
-  birthdate: z.string(),
+  name: z.string().min(4, "Nome obrigatório"),
 });
 
-export type FormDataAuthor = z.infer<typeof formSchema>;
+export type FormDataPublisher = z.infer<typeof formSchema>;
 
-const Authors = () => {
+const Pubisher = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openAlertModalDelete, setOpenAlertModalDelete] = useState(false);
-  const [editingAuthor, setEditingAuthor] = useState<any | null>(null);
-  const [deleteAuthor, setDeleteAuthor] = useState<string | null>(null);
+  const [editingPublisher, setEditingPublisher] = useState<any | null>(null);
+  const [deletePublisher, setDeletePublisher] = useState<string | null>(null);
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
   const [sort, setSort] = useState("createdAt,desc");
 
   // MUTATIONS
-  const { mutate: mutateCreateAuthor } = useCreateAuthor();
-  const { mutate: mutateEditAuthor } = useEditAuthor();
-  const { mutate: mutateDeleteAuthor } = useDeleteAuthor();
+  const { mutate: mutateCreatePublisher } = useCreatePublisher();
+  const { mutate: mutateEditPublisher } = useEditPublisher();
+  const { mutate: mutateDeletePublisher } = useDeletePublisher();
 
-  // QUERRY
+  // QUERIES
   const {
-    data: allAuthors,
+    data: allPublisher,
     isLoading,
     error,
-  } = usePaginatedAuthors(page, size, sort);
+  } = useAllPaginatePublisher(page, size, sort);
 
-  const form = useForm<FormDataAuthor>({
+  const form = useForm<FormDataPublisher>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      nationality: "",
-      birthdate: "",
     },
   });
 
-  const handleEditAuthors = (author: IAuthor) => {
-    setEditingAuthor(author);
-    form.setValue("name", author.name);
-    form.setValue("nationality", author.nationality);
-    form.setValue("birthdate", author.birthdate);
-    setSort("createdAt,desc");
+  const handleEditPublisher = (publisher: IPublisher) => {
+    console.log("publisher->", publisher);
+    setEditingPublisher(publisher);
+    form.setValue("name", publisher.name);
     setOpenModal(true);
   };
 
-  const handleDeleteAuthors = (id: string) => {
-    setDeleteAuthor(id);
+  const handleDeleteublisher = (id: string) => {
+    setDeletePublisher(id);
     setOpenAlertModalDelete(true);
   };
 
   const confirmDelete = () => {
-    try {
-      if (deleteAuthor) {
-        mutateDeleteAuthor(deleteAuthor, {
-          onSuccess: () => {
-            setDeleteAuthor(null);
-            setOpenAlertModalDelete(false);
-          },
-        });
-      }
-    } catch (error) {
-      console.log(error);
+    if (deletePublisher) {
+      mutateDeletePublisher(deletePublisher, {
+        onSuccess: () => {
+          setEditingPublisher(null);
+          setOpenAlertModalDelete(false);
+        },
+      });
     }
   };
 
-  const onSubmit: SubmitHandler<FormDataAuthor> = (data) => {
-    if (editingAuthor) {
-      mutateEditAuthor(
+  const onSubmit: SubmitHandler<FormDataPublisher> = (data) => {
+    if (editingPublisher) {
+      mutateEditPublisher(
         {
-          id: editingAuthor.id,
+          id: editingPublisher.id,
           data,
         },
         {
@@ -101,13 +91,11 @@ const Authors = () => {
         }
       );
     } else {
-      mutateCreateAuthor(data, {
+      mutateCreatePublisher(data, {
         onSuccess: () => {
           form.reset();
+          setSort("createdAt,desc");
           setOpenModal(false);
-        },
-        onError: (error) => {
-          console.log("error ->", error);
         },
       });
     }
@@ -119,22 +107,22 @@ const Authors = () => {
   return (
     <div className="flex flex-col items-center justify-start gap-20 w-full h-full pt-10">
       <HeaderPage
-        title="Autores"
-        textButton="Adicionar Autor"
+        title="Editoras"
+        textButton="Adicionar Editora"
         setOpenModal={setOpenModal}
         form={form}
       />
 
       <div className="w-full space-y-4">
         <DataTable
-          columns={columnsAuthors(handleEditAuthors, handleDeleteAuthors)}
-          data={allAuthors?.content || []}
+          columns={columnsPublishers(handleEditPublisher, handleDeleteublisher)}
+          data={allPublisher?.content || []}
           borderless
         />
 
-        {allAuthors && (
+        {allPublisher && (
           <Pagination
-            totalPages={allAuthors.totalPages}
+            totalPages={allPublisher.totalPages}
             currentPage={page}
             pageSize={size}
             onPageChange={setPage}
@@ -147,7 +135,7 @@ const Authors = () => {
       </div>
 
       {openModal && (
-        <ModalAddAuthor
+        <ModalAddPublisher
           open={openModal}
           setOpen={setOpenModal}
           form={form}
@@ -158,8 +146,8 @@ const Authors = () => {
       {/* Alert Modal */}
       {openAlertModalDelete && (
         <AlertModal
-          titleModal="Excluir Autor"
-          descriptionModal="Deseja realmente excluír o Autor? Esta ação não poderá ser desfeita."
+          titleModal="Excluir Editora"
+          descriptionModal="Deseja realmente excluír a Editora? Esta ação não poderá ser desfeita."
           isOpen={openAlertModalDelete}
           onClose={() => setOpenAlertModalDelete(false)}
           textButtonCancel="Cancelar"
@@ -172,4 +160,4 @@ const Authors = () => {
   );
 };
 
-export default Authors;
+export default Pubisher;

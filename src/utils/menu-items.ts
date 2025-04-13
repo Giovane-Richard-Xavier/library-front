@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Book, Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 import { Enum_Routes } from "../../routes";
 
 export const items = [
@@ -9,13 +9,18 @@ export const items = [
   },
   {
     title: "Livros",
-    url: "#",
+    url: Enum_Routes.BOOKS,
     icon: Inbox,
   },
   {
     title: "Autores",
-    url: "#",
+    url: Enum_Routes.AUTHORS,
     icon: Calendar,
+  },
+  {
+    title: "Editoras",
+    url: Enum_Routes.PUBLISHER,
+    icon: Book,
   },
   {
     title: "Search",

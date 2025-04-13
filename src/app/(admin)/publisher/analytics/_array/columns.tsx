@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -5,17 +7,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IAuthor } from "@/utils/types/authors";
+import { IPublisher } from "@/utils/types/publisher";
 import { IonIcon } from "@ionic/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { ellipsisHorizontal, pencil, trash } from "ionicons/icons";
 import { format } from "date-fns";
-// import { BadgeStatus } from "@components/BadgeStatus";
 
-export const columnsAuthors = (
-  handleEditAuthors: (author: IAuthor) => void,
-  handleDeleteAuthors: (uuid: string) => void
-): ColumnDef<IAuthor>[] => [
+export const columnsPublishers = (
+  handleEditPublisher: (publisher: IPublisher) => void,
+  handleDeletePublisher: (id: string) => void
+): ColumnDef<IPublisher>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -25,12 +26,12 @@ export const columnsAuthors = (
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         className="!bg-transparent w-auto !text-left px-0"
       >
-        Nome
+        Nome da editora
       </Button>
     ),
   },
   {
-    accessorKey: "nationality",
+    accessorKey: "createdAt",
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -38,24 +39,11 @@ export const columnsAuthors = (
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         className="!bg-transparent w-auto !text-left px-0"
       >
-        Nacionalidade
-      </Button>
-    ),
-  },
-  {
-    accessorKey: "birthdate",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="!bg-transparent w-auto !text-left px-0"
-      >
-        Data de Nascimento
+        Criado em
       </Button>
     ),
     cell: ({ row }) => {
-      return <div>{format(row.getValue("birthdate"), "dd/MM/yyyy")}</div>;
+      return <div>{format(row.getValue("createdAt"), "dd/MM/yyyy")}</div>;
     },
   },
   {
@@ -63,7 +51,7 @@ export const columnsAuthors = (
     size: 20,
     header: () => <div className="text-right mr-20">Ações</div>,
     cell: ({ row }) => {
-      const author = row.original;
+      const publisher = row.original;
 
       return (
         <div className="text-right font-medium mr-20">
@@ -83,14 +71,14 @@ export const columnsAuthors = (
             <DropdownMenuContent align="end" className="w-[150px]">
               <DropdownMenuItem
                 className="gap-10"
-                onClick={() => handleEditAuthors(author)}
+                onClick={() => handleEditPublisher(publisher)}
               >
                 <IonIcon size="small" icon={pencil} />
                 Editar
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="gap-10"
-                onClick={() => handleDeleteAuthors(author.id)}
+                onClick={() => handleDeletePublisher(publisher.id)}
               >
                 <IonIcon size="small" icon={trash} />
                 Excluir

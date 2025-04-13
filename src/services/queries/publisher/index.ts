@@ -1,26 +1,15 @@
-import { FormDataAuthor } from "@/app/(admin)/authors/page";
 import api from "@/services/api";
-import { IAuthor } from "@/utils/types/authors";
 import { PaginatedResponse } from "@/utils/types/pagination";
+import { IPublisher } from "@/utils/types/publisher";
 
-export const createAuthor = async (data: FormDataAuthor) => {
+export const getAllPublisherPaginate = async (
+  page: number,
+  size: number,
+  sort: string
+) => {
   try {
-    const request = await api.post("/bookstore/authors", data);
-
-    return request.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getPaginateAllAthors = async (
-  page: number = 0,
-  size: number = 10,
-  sort: string = "createdAt,desc"
-): Promise<PaginatedResponse<IAuthor>> => {
-  try {
-    const response = await api.get<PaginatedResponse<IAuthor>>(
-      "/bookstore/authors",
+    const request = await api.get<PaginatedResponse<IPublisher>>(
+      "/bookstore/publishers",
       {
         params: {
           page,
@@ -30,7 +19,7 @@ export const getPaginateAllAthors = async (
       }
     );
 
-    return response.data;
+    return request.data;
   } catch (error) {
     console.error("Error fetching authors:", error);
     return {
@@ -64,20 +53,9 @@ export const getPaginateAllAthors = async (
   }
 };
 
-export const getAllAthors = async (): Promise<IAuthor[]> => {
+export const createPublisher = async (data: Omit<IPublisher, "id">) => {
   try {
-    const request = await api.get("/bookstore/authors");
-
-    return request.data;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
-
-export const editAuthor = async (id: string, data: FormDataAuthor) => {
-  try {
-    const request = await api.put(`/bookstore/authors/${id}`, data);
+    const request = await api.post("/bookstore/publishers", data);
 
     return request.data;
   } catch (error) {
@@ -85,9 +63,22 @@ export const editAuthor = async (id: string, data: FormDataAuthor) => {
   }
 };
 
-export const deleteAuthor = async (id: string) => {
+export const editPublisher = async (
+  id: string,
+  data: Omit<IPublisher, "id">
+) => {
   try {
-    const request = await api.delete(`/bookstore/authors/${id}`);
+    const request = await api.put(`/bookstore/publishers/${id}`, data);
+
+    return request.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deletePublisher = async (id: string) => {
+  try {
+    const request = await api.delete(`/bookstore/publishers/${id}`);
 
     return request.data;
   } catch (error) {
