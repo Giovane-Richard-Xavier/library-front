@@ -7,6 +7,7 @@ import {
 } from ".";
 import { PaginatedResponse } from "@/utils/types/pagination";
 import { IPublisher } from "@/utils/types/publisher";
+import { FormDataPublisher } from "@/app/(admin)/publisher/page";
 
 export const useAllPaginatePublisher = (
   page: number,
@@ -24,8 +25,7 @@ export const useCreatePublisher = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (publisher: Omit<IPublisher, "id">) =>
-      createPublisher(publisher),
+    mutationFn: (publisher: FormDataPublisher) => createPublisher(publisher),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allPublisher"] });
     },
@@ -36,7 +36,7 @@ export const useEditPublisher = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Omit<IPublisher, "id"> }) =>
+    mutationFn: ({ id, data }: { id: string; data: FormDataPublisher }) =>
       editPublisher(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allPublisher"] });

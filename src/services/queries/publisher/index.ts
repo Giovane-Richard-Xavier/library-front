@@ -1,4 +1,3 @@
-import { FormDataPublisher } from "@/app/(admin)/publisher/page";
 import api from "@/services/api";
 import { PaginatedResponse } from "@/utils/types/pagination";
 import { IPublisher } from "@/utils/types/publisher";
@@ -64,7 +63,10 @@ export const createPublisher = async (data: Omit<IPublisher, "id">) => {
   }
 };
 
-export const editPublisher = async (id: string, data: FormDataPublisher) => {
+export const editPublisher = async (
+  id: string,
+  data: Omit<IPublisher, "id">
+) => {
   try {
     const request = await api.put(`/bookstore/publishers/${id}`, data);
 

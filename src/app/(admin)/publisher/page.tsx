@@ -8,6 +8,7 @@ import {
   useAllPaginatePublisher,
   useCreatePublisher,
   useDeletePublisher,
+  useEditPublisher,
 } from "@/services/queries/publisher/hook";
 import { IPublisher } from "@/utils/types/publisher";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,9 +27,7 @@ export type FormDataPublisher = z.infer<typeof formSchema>;
 const Pubisher = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openAlertModalDelete, setOpenAlertModalDelete] = useState(false);
-  const [editingPublisher, setEditingPublisher] = useState<IPublisher | null>(
-    null
-  );
+  const [editingPublisher, setEditingPublisher] = useState<any | null>(null);
   const [deletePublisher, setDeletePublisher] = useState<string | null>(null);
 
   const [page, setPage] = useState(0);
@@ -37,7 +36,7 @@ const Pubisher = () => {
 
   // MUTATIONS
   const { mutate: mutateCreatePublisher } = useCreatePublisher();
-  // const { mutate: mutateEditPublisher } = useCreatePublisher();
+  const { mutate: mutateEditPublisher } = useEditPublisher();
   const { mutate: mutateDeletePublisher } = useDeletePublisher();
 
   // QUERIES
@@ -55,6 +54,7 @@ const Pubisher = () => {
   });
 
   const handleEditPublisher = (publisher: IPublisher) => {
+    console.log("publisher->", publisher);
     setEditingPublisher(publisher);
     form.setValue("name", publisher.name);
     setOpenModal(true);
@@ -78,19 +78,18 @@ const Pubisher = () => {
 
   const onSubmit: SubmitHandler<FormDataPublisher> = (data) => {
     if (editingPublisher) {
-      // mutateEditPublisher(
-      //   {
-      //     id: editingPublisher.id,
-      //     data,
-      //   },
-      //   {
-      //     onSuccess: () => {
-      //       form.reset();
-      //       setOpenModal(false);
-      //     },
-      //   }
-      // );
-      <></>;
+      mutateEditPublisher(
+        {
+          id: editingPublisher.id,
+          data,
+        },
+        {
+          onSuccess: () => {
+            form.reset();
+            setOpenModal(false);
+          },
+        }
+      );
     } else {
       mutateCreatePublisher(data, {
         onSuccess: () => {
