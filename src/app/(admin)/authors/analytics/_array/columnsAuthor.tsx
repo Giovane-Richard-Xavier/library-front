@@ -10,7 +10,6 @@ import { IonIcon } from "@ionic/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { ellipsisHorizontal, pencil, trash } from "ionicons/icons";
 import { format } from "date-fns";
-// import { BadgeStatus } from "@components/BadgeStatus";
 
 export const columnsAuthors = (
   handleEditAuthors: (author: IAuthor) => void,

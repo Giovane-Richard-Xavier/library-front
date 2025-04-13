@@ -11,7 +11,7 @@ import { IPublisher } from "@/utils/types/publisher";
 import { IonIcon } from "@ionic/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { ellipsisHorizontal, pencil, trash } from "ionicons/icons";
-// import { BadgeStatus } from "@components/BadgeStatus";
+import { format } from "date-fns";
 
 export const columnsPublishers = (
   handleEditPublisher: (publisher: IPublisher) => void,
@@ -29,6 +29,22 @@ export const columnsPublishers = (
         Nome da editora
       </Button>
     ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="!bg-transparent w-auto !text-left px-0"
+      >
+        Criado em
+      </Button>
+    ),
+    cell: ({ row }) => {
+      return <div>{format(row.getValue("createdAt"), "dd/MM/yyyy")}</div>;
+    },
   },
   {
     accessorKey: "actions",
