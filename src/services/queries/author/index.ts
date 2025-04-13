@@ -13,7 +13,7 @@ export const createAuthor = async (data: FormDataAuthor) => {
   }
 };
 
-export const getPaginateAllAthors = async (
+export const getFilterAthors = async (
   page: number = 0,
   size: number = 10,
   sort: string = "createdAt,desc"
@@ -66,7 +66,7 @@ export const getPaginateAllAthors = async (
 
 export const getAllAthors = async (): Promise<IAuthor[]> => {
   try {
-    const request = await api.get("/bookstore/authors");
+    const request = await api.get("/bookstore/authors/getAll");
 
     return request.data;
   } catch (error) {

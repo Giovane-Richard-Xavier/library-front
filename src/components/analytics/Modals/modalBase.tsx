@@ -31,7 +31,7 @@ export const Modal = ({
   return (
     <Dialog open={open} onOpenChange={onOpen}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <DialogContent className="w-full max-h-[85vh] overflow-y-auto">
+      <DialogContent className="w-full max-h-[75vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
