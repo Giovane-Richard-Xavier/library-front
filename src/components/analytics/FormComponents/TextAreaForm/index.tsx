@@ -5,7 +5,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import type { TextareaHTMLAttributes } from "react";
 import {
@@ -44,16 +43,14 @@ function TextareaForm<T extends FieldValues>({
         <FormItem className="relative">
           <FormLabel>{label ? label : null}</FormLabel>
           <FormControl>
-            <ScrollArea>
-              <Textarea
-                placeholder={placeholder}
-                className={`w-full rounded-sm resize-${resize} ${
-                  fieldState.error ? "border-red-400 focus:border-red-400" : ""
-                }`}
-                style={{ height }}
-                {...field}
-              />
-            </ScrollArea>
+            <Textarea
+              placeholder={placeholder}
+              className={`w-full rounded-sm resize-${resize} ${
+                fieldState.error ? "border-red-400 focus:border-red-400" : ""
+              }`}
+              style={{ height }}
+              {...field}
+            />
           </FormControl>
           <FormMessage>{fieldState.error?.message}</FormMessage>
         </FormItem>
@@ -63,4 +60,3 @@ function TextareaForm<T extends FieldValues>({
 }
 
 export { TextareaForm };
-

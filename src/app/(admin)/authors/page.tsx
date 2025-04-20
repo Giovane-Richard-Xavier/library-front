@@ -62,7 +62,7 @@ const Authors = () => {
     form.setValue("name", author.name);
     form.setValue("nationality", author.nationality);
     form.setValue("birthdate", author.birthdate);
-    setSort("createdAt,desc");
+    setSort("createdAt,desc"); // temp
     setOpenModal(true);
   };
 

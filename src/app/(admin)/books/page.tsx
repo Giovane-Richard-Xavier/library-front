@@ -3,7 +3,9 @@
 import { DataTable } from "@/components/analytics/DataTable/data-table";
 import { HeaderPage } from "@/components/analytics/HeaderPage";
 import { AlertModal } from "@/components/analytics/Modals/alertModal";
+import { Pagination } from "@/components/analytics/Pagination";
 import { useAllAuthors } from "@/services/queries/author/hook";
+import { usePaginatedBooks } from "@/services/queries/books/hook";
 import { useAllPublishers } from "@/services/queries/publisher/hook";
 import { IBook } from "@/utils/types/book";
 import { IOptions } from "@/utils/types/options";
@@ -37,9 +39,18 @@ const Books = () => {
   const [authorOptions, setAuthorOptions] = useState<IOptions[]>([]);
   const [publisherOptions, setPublisherOptions] = useState<IOptions[]>([]);
 
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
+  const [sort, setSort] = useState("createdAt,desc");
+
   // MUTATIONS
 
   // QUERIES
+  const {
+    data: allBooks,
+    isLoading,
+    error,
+  } = usePaginatedBooks(page, size, sort);
   const { data: allAuthor } = useAllAuthors();
   const { data: allPublishers } = useAllPublishers();
 
@@ -57,6 +68,7 @@ const Books = () => {
 
   const handleEditBooks = (book: IBook) => {
     console.log(book);
+    setSort("createdAt,desc"); // temp
   };
 
   const handleDeleteBooks = (id: string) => {
@@ -91,6 +103,9 @@ const Books = () => {
     }
   }, [allPublishers]);
 
+  if (isLoading) return <div>Carregando...</div>;
+  if (error) return <div>Erro ao carregar autores</div>;
+
   return (
     <div className="flex flex-col items-center justify-start gap-20 w-full h-full pt-10">
       <HeaderPage
@@ -103,12 +118,11 @@ const Books = () => {
       <div className="w-full space-y-4">
         <DataTable
           columns={columnsBooks(handleEditBooks, handleDeleteBooks)}
-          // data={allBooks?.content || []}
-          data={[]}
+          data={allBooks?.content || []}
           borderless
         />
 
-        {/* {allBooks && (
+        {allBooks && (
           <Pagination
             totalPages={allBooks.totalPages}
             currentPage={page}
@@ -119,7 +133,7 @@ const Books = () => {
               setPage(0);
             }}
           />
-        )} */}
+        )}
       </div>
 
       {openModal && (
