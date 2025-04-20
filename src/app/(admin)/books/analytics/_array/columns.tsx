@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -5,18 +7,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { formatToBrazilianCurrency } from "@/utils/functions/formatToBrazilianCurrency";
 import { IBook } from "@/utils/types/book";
 import { IonIcon } from "@ionic/react";
 import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
 import { ellipsisHorizontal, pencil, trash } from "ionicons/icons";
+import Image from "next/image";
 
 export const columnsBooks = (
   handleEditBooks: (author: IBook) => void,
   handleDeleteBooks: (uuid: string) => void
 ): ColumnDef<IBook>[] => [
   {
-    accessorKey: "name",
+    accessorKey: "title",
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -24,12 +27,12 @@ export const columnsBooks = (
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         className="!bg-transparent w-auto !text-left px-0"
       >
-        Nome
+        Título
       </Button>
     ),
   },
   {
-    accessorKey: "nationality",
+    accessorKey: "price",
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -37,24 +40,50 @@ export const columnsBooks = (
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         className="!bg-transparent w-auto !text-left px-0"
       >
-        Nacionalidade
-      </Button>
-    ),
-  },
-  {
-    accessorKey: "birthdate",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="!bg-transparent w-auto !text-left px-0"
-      >
-        Data de Nascimento
+        Preço
       </Button>
     ),
     cell: ({ row }) => {
-      return <div>{format(row.getValue("birthdate"), "dd/MM/yyyy")}</div>;
+      return <div>{formatToBrazilianCurrency(row.getValue("price"))}</div>;
+    },
+  },
+  {
+    accessorKey: "genre",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="!bg-transparent w-auto !text-left px-0"
+      >
+        Gênero Literário
+      </Button>
+    ),
+    // cell: ({ row }) => {
+    //   return <div>{format(row.getValue("birthdate"), "dd/MM/yyyy")}</div>;
+    // },
+  },
+  {
+    accessorKey: "bookCoverUrl",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="!bg-transparent w-auto !text-left px-0"
+      >
+        Capa do Livro
+      </Button>
+    ),
+    cell: ({ row }) => {
+      return (
+        <Image
+          src={row.getValue("bookCoverUrl")}
+          width={50}
+          height={60}
+          alt="Capa do livro"
+        ></Image>
+      );
     },
   },
   {

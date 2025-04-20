@@ -31,7 +31,7 @@ export const ModalAddBooks = ({
     <Modal
       open={open}
       onOpen={setOpen}
-      title="Adicionar Livro"
+      title=""
       description="Adicione um novo livro"
     >
       <div className="">
