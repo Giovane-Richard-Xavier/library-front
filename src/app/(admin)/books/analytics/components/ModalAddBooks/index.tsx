@@ -9,6 +9,7 @@ import { FormDataBook } from "../../../page";
 import { SelectForm } from "@/components/analytics/FormComponents/SelectForm";
 import { IOptions } from "@/utils/types/options";
 import { TextareaForm } from "@/components/analytics/FormComponents/TextAreaForm";
+import { genreList } from "@/utils/types/genre-list";
 
 type ModalAddAuthorProps = {
   open: boolean;
@@ -54,7 +55,17 @@ export const ModalAddBooks = ({
                 />
               </div>
 
-              <div className="flex items-center justify-between gap-5 w-full">
+              <div className="w-full">
+                <SelectForm
+                  name="author_id"
+                  label="Autor"
+                  control={form.control}
+                  placeholder="Selecionar"
+                  options={authorOptions || []}
+                />
+              </div>
+
+              <div className="flex items-start justify-between gap-5 w-full">
                 <div className="w-full">
                   <InputForm
                     type="number"
@@ -75,41 +86,26 @@ export const ModalAddBooks = ({
                 </div>
               </div>
 
-              <div className="flex flex-col gap-20 w-full">
-                <SelectForm
-                  name="author_id"
-                  label="Autor"
-                  control={form.control}
-                  placeholder="Selecionar"
-                  options={authorOptions || []}
-                />
-              </div>
+              <div className="flex items-start gap-5 w-full">
+                <div className="w-full">
+                  <SelectForm
+                    name="publisher_id"
+                    label="Editora"
+                    control={form.control}
+                    placeholder="Selecionar"
+                    options={publisherOptions || []}
+                  />
+                </div>
 
-              <div className="flex flex-col gap-20 w-full">
-                <SelectForm
-                  name="publisher_id"
-                  label="Autor"
-                  control={form.control}
-                  placeholder="Selecionar"
-                  options={publisherOptions || []}
-                />
-              </div>
-
-              <div className="flex flex-col gap-20 w-full">
-                <SelectForm
-                  name="genre"
-                  label="Generos"
-                  control={form.control}
-                  placeholder="Selecionar"
-                  options={[
-                    { label: "Romance", value: "ROMANCE" },
-                    { label: "Ficção", value: "FICTION" },
-                    { label: "Fantasia", value: "FANTASY" },
-                    { label: "Mistério", value: "MYSTERY" },
-                    { label: "Ciência", value: "SCIENCE" },
-                    { label: "Biografia", value: "BIOGRAPHY" },
-                  ]}
-                />
+                <div className="w-full">
+                  <SelectForm
+                    name="genre"
+                    label="Generos"
+                    control={form.control}
+                    placeholder="Selecionar"
+                    options={genreList}
+                  />
+                </div>
               </div>
 
               <InputForm
@@ -124,7 +120,7 @@ export const ModalAddBooks = ({
                   label="Sinopse"
                   placeholder="Digite uma review para o livro"
                   control={form.control}
-                  height={200}
+                  height={100}
                 />
               </div>
 

@@ -78,7 +78,7 @@ export const SiteNavbar = () => {
               <DropdownMenuContent align="end" className="w-[150px]">
                 <DropdownMenuItem
                   className="gap-5"
-                  onClick={() => router.push(Enum_Routes.AUTHORS)}
+                  onClick={() => router.push(Enum_Routes.BOOKS)}
                 >
                   <IonIcon size="small" icon={logIn} />
                   Login
