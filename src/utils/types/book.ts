@@ -5,7 +5,7 @@ export interface IBook {
   publicationDate: string;
   price: number;
   genre: string;
-  language: string;
+  language?: string;
   bookCoverUrl: string;
   author_id: string;
   publisher_id: string;

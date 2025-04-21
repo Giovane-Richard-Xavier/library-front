@@ -5,7 +5,10 @@ import { HeaderPage } from "@/components/analytics/HeaderPage";
 import { AlertModal } from "@/components/analytics/Modals/alertModal";
 import { Pagination } from "@/components/analytics/Pagination";
 import { useAllAuthors } from "@/services/queries/author/hook";
-import { usePaginatedBooks } from "@/services/queries/books/hook";
+import {
+  useCreateBook,
+  usePaginatedBooks,
+} from "@/services/queries/books/hook";
 import { useAllPublishers } from "@/services/queries/publisher/hook";
 import { IBook } from "@/utils/types/book";
 import { IOptions } from "@/utils/types/options";
@@ -34,7 +37,7 @@ export type FormDataBook = z.infer<typeof formSchema>;
 const Books = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openAlertModalDelete, setOpenAlertModalDelete] = useState(false);
-  // const [editingBook, setEditingBook] = useState<any | null>(null);
+  const [editingBook, setEditingBook] = useState<any | null>(null);
   // const [deleteBook, setDeleteBook] = useState<string | null>(null);
   const [authorOptions, setAuthorOptions] = useState<IOptions[]>([]);
   const [publisherOptions, setPublisherOptions] = useState<IOptions[]>([]);
@@ -44,6 +47,7 @@ const Books = () => {
   const [sort, setSort] = useState("createdAt,desc");
 
   // MUTATIONS
+  const { mutate: mutateCreateBook } = useCreateBook();
 
   // QUERIES
   const {
@@ -67,7 +71,7 @@ const Books = () => {
   });
 
   const handleEditBooks = (book: IBook) => {
-    console.log(book);
+    setEditingBook(book);
     setSort("createdAt,desc"); // temp
   };
 
@@ -78,7 +82,20 @@ const Books = () => {
   const confirmDelete = () => {};
 
   const onSubmit: SubmitHandler<FormDataBook> = (data) => {
-    console.log("data-> ", data);
+    console.log("data->", data);
+    if (editingBook) {
+      <></>;
+    } else {
+      mutateCreateBook(data, {
+        onSuccess: () => {
+          form.reset();
+          setOpenModal(false);
+        },
+        onError: (error) => {
+          console.log("error ->", error);
+        },
+      });
+    }
   };
 
   useEffect(() => {

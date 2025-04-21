@@ -2,6 +2,16 @@ import api from "@/services/api";
 import { IBook } from "@/utils/types/book";
 import { PaginatedResponse } from "@/utils/types/pagination";
 
+export const createBook = async (data: Omit<IBook, "id">) => {
+  try {
+    const request = await api.post("/bookstore/books", data);
+
+    return request.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getAllBooksPaginate = async (
   page: number = 0,
   size: number = 10,
