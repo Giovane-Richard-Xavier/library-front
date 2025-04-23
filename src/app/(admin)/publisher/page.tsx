@@ -17,6 +17,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { columnsPublishers } from "./analytics/_array/columns";
 import { ModalAddPublisher } from "./analytics/components/modalAddPublisher";
+import { SkeletonTable } from "@/components/analytics/SkeletonComponent/SkeletonTable";
 
 const formSchema = z.object({
   name: z.string().min(4, "Nome obrigatório"),
@@ -101,7 +102,12 @@ const Pubisher = () => {
     }
   };
 
-  if (isLoading) return <div>Carregando...</div>;
+  if (isLoading)
+      return (
+        <div>
+          <SkeletonTable />
+        </div>
+      );
   if (error) return <div>Erro ao carregar autores</div>;
 
   return (

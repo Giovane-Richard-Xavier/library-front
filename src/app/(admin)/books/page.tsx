@@ -18,6 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { columnsBooks } from "./analytics/_array/columns";
 import { ModalAddBooks } from "./analytics/components/ModalAddBooks";
+import { SkeletonTable } from "@/components/analytics/SkeletonComponent/SkeletonTable";
 
 const formSchema = z.object({
   isbn: z.string().min(4, "ISBN é obrigatório"),
@@ -120,7 +121,12 @@ const Books = () => {
     }
   }, [allPublishers]);
 
-  if (isLoading) return <div>Carregando...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <SkeletonTable />
+      </div>
+    );
   if (error) return <div>Erro ao carregar autores</div>;
 
   return (
