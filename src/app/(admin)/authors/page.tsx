@@ -17,6 +17,7 @@ import { z } from "zod";
 import { columnsAuthors } from "./analytics/_array/columnsAuthor";
 import { ModalAddAuthor } from "./analytics/components/ModalAddAuthor";
 import { HeaderPage } from "@/components/analytics/HeaderPage";
+import { SkeletonTable } from "@/components/analytics/SkeletonComponent/SkeletonTable";
 
 const formSchema = z.object({
   name: z.string().min(1, "Nome obrigatório"),
@@ -113,7 +114,12 @@ const Authors = () => {
     }
   };
 
-  if (isLoading) return <div>Carregando...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <SkeletonTable />
+      </div>
+    );
   if (error) return <div>Erro ao carregar autores</div>;
 
   return (
