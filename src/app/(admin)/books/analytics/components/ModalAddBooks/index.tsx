@@ -1,15 +1,14 @@
 import { Modal } from "@/components/analytics/Modals/modalBase";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import React from "react";
 import { SubmitHandler, UseFormReturn } from "react-hook-form";
 
 import { InputForm } from "@/components/analytics/FormComponents/InputForm";
-import { FormDataBook } from "../../../page";
 import { SelectForm } from "@/components/analytics/FormComponents/SelectForm";
-import { IOptions } from "@/utils/types/options";
 import { TextareaForm } from "@/components/analytics/FormComponents/TextAreaForm";
 import { genreList } from "@/utils/types/genre-list";
+import { IOptions } from "@/utils/types/options";
+import { FormDataBook } from "../../../page";
 
 type ModalAddAuthorProps = {
   open: boolean;

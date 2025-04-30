@@ -10,20 +10,21 @@ import {
   settings,
 } from "ionicons/icons";
 import Image from "next/image";
-import { Input } from "../ui/input";
+import React from "react";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
-import { Enum_Routes } from "../../../routes";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Input } from "../ui/input";
 
-export const SiteNavbar = () => {
-  const router = useRouter();
+type SiteNavbarProps = {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
+export const SiteNavbar = ({ setOpen }: SiteNavbarProps) => {
   return (
     <div className="flex items-center justify-center px-20 h-[70px] w-full bg-gradient-to-r from-[#38184c] via-[#930648] to-[#38184c] text-white">
       {/* leftside */}
@@ -78,7 +79,7 @@ export const SiteNavbar = () => {
               <DropdownMenuContent align="end" className="w-[150px]">
                 <DropdownMenuItem
                   className="gap-5"
-                  onClick={() => router.push(Enum_Routes.BOOKS)}
+                  onClick={() => setOpen(true)}
                 >
                   <IonIcon size="small" icon={logIn} />
                   Login
