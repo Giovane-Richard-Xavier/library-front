@@ -132,8 +132,8 @@ const Books = () => {
   return (
     <div className="flex flex-col items-center justify-start gap-20 w-full h-full pt-10">
       <HeaderPage
-        title="Autores"
-        textButton="Adicionar Autor"
+        title="Livros"
+        textButton="Adicionar Livro"
         setOpenModal={setOpenModal}
         form={form}
       />

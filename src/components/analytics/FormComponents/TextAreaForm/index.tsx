@@ -12,8 +12,6 @@ import {
   useController,
   UseControllerProps,
 } from "react-hook-form";
-// import { Textarea } from "@repo/ui";
-// import { ScrollArea } from "../../../../../../../packages/web-ds/src/components/ScrollArea";
 
 type TextareaFormProps<T extends FieldValues> = Omit<
   TextareaHTMLAttributes<HTMLTextAreaElement>,

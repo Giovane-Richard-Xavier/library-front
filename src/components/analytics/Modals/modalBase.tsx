@@ -7,7 +7,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import React from "react";
 
 type ModalProps = {
@@ -34,15 +33,12 @@ export const Modal = ({
   return (
     <Dialog open={open} onOpenChange={onOpen}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      {/* <DialogContent className="w-full max-h-[75vh] overflow-y-auto"> */}
       <DialogContent className={`w-full ${width} max-h-[70vh] overflow-y-auto`}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <ScrollArea>
-          <div className="w-full ${width} h-full">{children}</div>
-        </ScrollArea>
+        <div className="w-full ${width} h-full">{children}</div>
 
         {footer && <DialogFooter>{footer}</DialogFooter>}
       </DialogContent>
